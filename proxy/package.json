@@ -1,0 +1,15 @@
+{
+  "name": "minechamp-proxy",
+  "version": "1.0.0",
+  "description": "Proxy ligero para auto-encender el servidor de Minecraft en Railway",
+  "main": "proxy.js",
+  "scripts": {
+    "start": "node proxy.js"
+  },
+  "dependencies": {
+    "minecraft-protocol": "^1.47.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

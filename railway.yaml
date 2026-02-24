@@ -1,0 +1,48 @@
+# Railway Multi-Service Configuration
+# Este archivo permite desplegar múltiples servicios con un solo click
+
+services:
+  proxy:
+    name: MineChamp Proxy
+    icon: 🚪
+    build:
+      dockerfile: proxy/Dockerfile
+      context: proxy
+    
+    env:
+      PROXY_PORT: 25565
+      MC_SERVER_HOST: ${{server.RAILWAY_PRIVATE_DOMAIN}}
+      MC_SERVER_PORT: 25565
+      RAILWAY_SERVICE_ID: ${{server.RAILWAY_SERVICE_ID}}
+      RAILWAY_ENVIRONMENT_ID: ${{RAILWAY_ENVIRONMENT_ID}}
+      SERVER_MOTD: "§6§l⛏ MineChamp §r§7| §eClick para iniciar servidor"
+      STARTING_MOTD: "§6§l⛏ MineChamp §r§7| §aIniciando servidor..."
+      COOLDOWN_MINUTES: "2"
+    
+    networking:
+      tcp:
+        - port: 25565
+          public: true
+
+  server:
+    name: MineChamp Server
+    icon: ⛏️
+    build:
+      dockerfile: Dockerfile
+    
+    env:
+      MEMORY_MIN: 1G
+      MEMORY_MAX: 2G
+      SERVER_PORT: 25565
+      ONLINE_MODE: "false"
+      MAX_PLAYERS: 20
+      VIEW_DISTANCE: 10
+      DIFFICULTY: normal
+      GAMEMODE: survival
+      PVP: "true"
+      ENABLE_HIBERNATE: "true"
+      IDLE_TIMEOUT: 10
+      MOTD: "§6§l⛏ MineChamp §r§7By §bDubbxd"
+    
+    networking:
+      private: true

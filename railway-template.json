@@ -1,0 +1,122 @@
+{
+  "name": "MineChamp - Minecraft Server con Auto-Hibernación",
+  "description": "Servidor de Minecraft 1.21.11 con proxy Wake-on-Connect que enciende automáticamente el servidor cuando alguien intenta conectarse. Ahorra hasta 70% en costos de hosting.",
+  "repository": "https://github.com/Dubbxd/minechamp",
+  "keywords": ["minecraft", "server", "railway", "auto-wake", "cost-optimization", "hibernate"],
+  "services": [
+    {
+      "name": "MineChamp Proxy",
+      "id": "proxy",
+      "icon": "🚪",
+      "description": "Proxy ligero que detecta conexiones y enciende el servidor automáticamente",
+      "rootDirectory": "proxy",
+      "buildCommand": "npm install --production",
+      "startCommand": "node proxy.js",
+      "envVars": {
+        "PROXY_PORT": {
+          "description": "Puerto donde escucha el proxy",
+          "default": "25565"
+        },
+        "MC_SERVER_HOST": {
+          "description": "Host interno del servidor de Minecraft",
+          "default": "${{MineChamp.RAILWAY_PRIVATE_DOMAIN}}"
+        },
+        "MC_SERVER_PORT": {
+          "description": "Puerto interno del servidor de Minecraft",
+          "default": "25565"
+        },
+        "RAILWAY_TOKEN": {
+          "description": "Token de API de Railway para encender el servidor",
+          "required": true,
+          "generator": "railway_token"
+        },
+        "RAILWAY_SERVICE_ID": {
+          "description": "ID del servicio del servidor de Minecraft",
+          "default": "${{MineChamp.RAILWAY_SERVICE_ID}}"
+        },
+        "RAILWAY_ENVIRONMENT_ID": {
+          "description": "ID del environment de Railway",
+          "default": "${{RAILWAY_ENVIRONMENT_ID}}"
+        },
+        "SERVER_MOTD": {
+          "description": "MOTD mostrado cuando el servidor está apagado",
+          "default": "§6§l⛏ MineChamp §r§7| §eClick para iniciar servidor"
+        },
+        "STARTING_MOTD": {
+          "description": "MOTD mostrado mientras el servidor inicia",
+          "default": "§6§l⛏ MineChamp §r§7| §aIniciando servidor..."
+        },
+        "COOLDOWN_MINUTES": {
+          "description": "Minutos entre solicitudes de inicio del servidor",
+          "default": "2"
+        }
+      },
+      "domains": [
+        {
+          "type": "tcp",
+          "port": 25565
+        }
+      ]
+    },
+    {
+      "name": "MineChamp",
+      "id": "server",
+      "icon": "⛏️",
+      "description": "Servidor de Minecraft 1.21.11 con auto-hibernación",
+      "rootDirectory": ".",
+      "envVars": {
+        "MEMORY_MIN": {
+          "description": "Memoria RAM mínima",
+          "default": "1G"
+        },
+        "MEMORY_MAX": {
+          "description": "Memoria RAM máxima (ajustar según plan)",
+          "default": "2G"
+        },
+        "SERVER_PORT": {
+          "description": "Puerto del servidor (no cambiar)",
+          "default": "25565"
+        },
+        "ONLINE_MODE": {
+          "description": "false = Permite launchers alternativos, true = Solo Mojang oficial",
+          "default": "false"
+        },
+        "MAX_PLAYERS": {
+          "description": "Número máximo de jugadores",
+          "default": "20"
+        },
+        "VIEW_DISTANCE": {
+          "description": "Distancia de visión en chunks",
+          "default": "10"
+        },
+        "DIFFICULTY": {
+          "description": "Dificultad del juego (peaceful/easy/normal/hard)",
+          "default": "normal"
+        },
+        "GAMEMODE": {
+          "description": "Modo de juego predeterminado (survival/creative/adventure/spectator)",
+          "default": "survival"
+        },
+        "PVP": {
+          "description": "Activar/desactivar PvP",
+          "default": "true"
+        },
+        "ENABLE_HIBERNATE": {
+          "description": "Activar apagado automático por inactividad",
+          "default": "true"
+        },
+        "IDLE_TIMEOUT": {
+          "description": "Minutos sin jugadores antes de apagar el servidor",
+          "default": "10"
+        },
+        "MOTD": {
+          "description": "Mensaje del día del servidor",
+          "default": "§6§l⛏ MineChamp §r§7By §bDubbxd"
+        }
+      },
+      "networking": {
+        "privateOnly": true
+      }
+    }
+  ]
+}
